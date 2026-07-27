@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { MessageCircle, Send, Loader2 } from "lucide-react";
-import { generateChatReply } from "../lib/ai";
+import { useServerFn } from "@tanstack/react-start";
+import { chatReplyFn } from "../lib/ai.functions";
 
 export const Route = createFileRoute("/chat")({
   head: () => ({
@@ -23,7 +24,9 @@ function ChatPage() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const chat = useServerFn(chatReplyFn);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -37,9 +40,15 @@ function ChatPage() {
     setMessages(next);
     setInput("");
     setLoading(true);
-    const reply = await generateChatReply(next);
-    setMessages([...next, { role: "assistant", content: reply }]);
-    setLoading(false);
+    setError(null);
+    try {
+      const { reply } = await chat({ data: { messages: next } });
+      setMessages([...next, { role: "assistant", content: reply }]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Couldn't reach the tutor. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -71,6 +80,13 @@ function ChatPage() {
             <div className="flex justify-start">
               <div className="rounded-2xl bg-muted px-4 py-3 text-sm inline-flex items-center gap-2 text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" /> Thinking...
+              </div>
+            </div>
+          )}
+          {error && (
+            <div className="flex justify-start">
+              <div className="rounded-2xl border border-destructive/40 bg-destructive/10 text-destructive px-4 py-3 text-sm">
+                {error}
               </div>
             </div>
           )}
