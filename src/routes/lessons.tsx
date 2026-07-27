@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Loader2, BookOpen, Sparkles } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { generateLessonFn } from "../lib/ai.functions";
+import { Markdown } from "../components/Markdown";
+
 
 export const Route = createFileRoute("/lessons")({
   head: () => ({
@@ -104,7 +106,7 @@ function LessonsPage() {
 
       {lesson && !loading && (
         <article className="mt-8 rounded-2xl border border-border/60 bg-card p-8 shadow-sm">
-          <LessonRenderer markdown={lesson} />
+          <Markdown>{lesson}</Markdown>
         </article>
       )}
 
@@ -125,51 +127,3 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-// Minimal markdown renderer for headings, bold, lists, blockquotes
-function LessonRenderer({ markdown }: { markdown: string }) {
-  const lines = markdown.split("\n");
-  const out: React.ReactNode[] = [];
-  let listBuf: string[] = [];
-  let olBuf: string[] = [];
-
-  const flushUl = () => {
-    if (listBuf.length) {
-      out.push(
-        <ul key={`ul-${out.length}`} className="list-disc pl-6 space-y-1 my-3">
-          {listBuf.map((l, i) => <li key={i} dangerouslySetInnerHTML={{ __html: inline(l) }} />)}
-        </ul>,
-      );
-      listBuf = [];
-    }
-  };
-  const flushOl = () => {
-    if (olBuf.length) {
-      out.push(
-        <ol key={`ol-${out.length}`} className="list-decimal pl-6 space-y-1 my-3">
-          {olBuf.map((l, i) => <li key={i} dangerouslySetInnerHTML={{ __html: inline(l) }} />)}
-        </ol>,
-      );
-      olBuf = [];
-    }
-  };
-
-  for (const raw of lines) {
-    const line = raw.trimEnd();
-    if (/^# /.test(line)) { flushUl(); flushOl(); out.push(<h1 key={out.length} className="text-3xl font-bold mt-2 mb-4">{line.slice(2)}</h1>); }
-    else if (/^## /.test(line)) { flushUl(); flushOl(); out.push(<h2 key={out.length} className="text-xl font-semibold mt-6 mb-2 text-primary">{line.slice(3)}</h2>); }
-    else if (/^- /.test(line)) { flushOl(); listBuf.push(line.slice(2)); }
-    else if (/^\d+\.\s/.test(line)) { flushUl(); olBuf.push(line.replace(/^\d+\.\s/, "")); }
-    else if (/^> /.test(line)) { flushUl(); flushOl(); out.push(<blockquote key={out.length} className="border-l-4 border-primary/40 pl-4 italic text-muted-foreground my-2" dangerouslySetInnerHTML={{ __html: inline(line.slice(2)) }} />); }
-    else if (line.trim() === "") { flushUl(); flushOl(); }
-    else { flushUl(); flushOl(); out.push(<p key={out.length} className="my-2 leading-relaxed" dangerouslySetInnerHTML={{ __html: inline(line) }} />); }
-  }
-  flushUl(); flushOl();
-  return <div>{out}</div>;
-}
-
-function inline(s: string) {
-  return s
-    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*(.+?)\*/g, "<em>$1</em>");
-}

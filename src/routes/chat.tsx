@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { MessageCircle, Send, Loader2 } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { chatReplyFn } from "../lib/ai.functions";
+import { Markdown } from "../components/Markdown";
+
 
 export const Route = createFileRoute("/chat")({
   head: () => ({
@@ -68,14 +70,15 @@ function ChatPage() {
               <div
                 className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                   m.role === "user"
-                    ? "bg-primary text-primary-foreground rounded-br-sm"
+                    ? "bg-primary text-primary-foreground rounded-br-sm whitespace-pre-wrap"
                     : "bg-muted text-foreground rounded-bl-sm"
                 }`}
               >
-                {m.content}
+                {m.role === "assistant" ? <Markdown compact>{m.content}</Markdown> : m.content}
               </div>
             </div>
           ))}
+
           {loading && (
             <div className="flex justify-start">
               <div className="rounded-2xl bg-muted px-4 py-3 text-sm inline-flex items-center gap-2 text-muted-foreground">
