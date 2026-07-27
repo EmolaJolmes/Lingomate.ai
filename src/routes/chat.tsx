@@ -24,7 +24,9 @@ function ChatPage() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const chat = useServerFn(chatReplyFn);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -38,9 +40,15 @@ function ChatPage() {
     setMessages(next);
     setInput("");
     setLoading(true);
-    const reply = await generateChatReply(next);
-    setMessages([...next, { role: "assistant", content: reply }]);
-    setLoading(false);
+    setError(null);
+    try {
+      const { reply } = await chat({ data: { messages: next } });
+      setMessages([...next, { role: "assistant", content: reply }]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Couldn't reach the tutor. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
