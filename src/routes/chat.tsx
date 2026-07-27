@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { MessageCircle, Send, Loader2 } from "lucide-react";
-import { generateChatReply } from "../lib/ai";
+import { useServerFn } from "@tanstack/react-start";
+import { chatReplyFn } from "../lib/ai.functions";
 
 export const Route = createFileRoute("/chat")({
   head: () => ({
