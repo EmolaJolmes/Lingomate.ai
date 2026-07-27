@@ -16,7 +16,7 @@ Many language-learning platforms require subscriptions, user accounts, or fixed 
 
 ## Live Website
 
-(Add your Lovable URL here)
+https://lingo-mate-ai-56.lovable.app/
 
 ---
 
