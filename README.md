@@ -117,7 +117,7 @@ The AI is instructed to:
 1. Clone the repository.
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_LINK
+git clone https://github.com/EmolaJolmes/Lingomate.ai
 ```
 
 2. Install dependencies.
