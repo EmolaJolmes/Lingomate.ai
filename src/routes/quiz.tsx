@@ -88,6 +88,18 @@ function QuizPage() {
         </button>
       </form>
 
+      {error && (
+        <div className="mt-6 rounded-xl border border-destructive/40 bg-destructive/10 text-destructive px-4 py-3 text-sm">
+          {error}
+        </div>
+      )}
+
+      {loading && (
+        <div className="mt-6 flex items-center gap-2 text-sm text-muted-foreground">
+          <Loader2 className="h-4 w-4 animate-spin" /> Generating your quiz...
+        </div>
+      )}
+
       {questions && (
         <div className="mt-8 space-y-4">
           {questions.map((q, i) => (
