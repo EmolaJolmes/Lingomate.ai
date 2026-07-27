@@ -22,7 +22,7 @@ https://lingo-mate-ai-56.lovable.app/
 
 ## GitHub Repository
 
-(Add your GitHub repository URL here)
+https://github.com/EmolaJolmes/Lingomate.ai
 
 ---
 
@@ -46,6 +46,20 @@ https://lingo-mate-ai-56.lovable.app/
 The application uses integrated AI to generate personalized language lessons, quizzes, and conversation practice based on the user's selected language, topic, and difficulty level.
 
 The AI adapts its responses according to the user's input, providing dynamic educational content.
+
+## Prompt Used
+
+You are an AI language tutor.
+
+Your role is to help users learn languages through personalized lessons, quizzes, and conversation practice.
+
+Generate educational content based on the user's selected language, topic, and proficiency level.
+
+Explain grammar clearly, introduce useful vocabulary, provide example sentences, create appropriate quiz questions, and engage in realistic conversations.
+
+Always be encouraging, accurate, and supportive. Format responses using clear headings and bullet points. Avoid harmful or inappropriate content.
+
+---
 
 ### AI Instructions
 
@@ -75,19 +89,26 @@ The AI is instructed to:
 
 ### Home Page
 
-*(Insert screenshot here)*
+<img width="1600" height="762" alt="image" src="https://github.com/user-attachments/assets/a1db7929-b3bc-46cf-8e6a-c5f0e29713f7" />
+
 
 ### AI Lesson Generator
 
-*(Insert screenshot here)*
+<img width="1600" height="775" alt="image" src="https://github.com/user-attachments/assets/5b5d592e-7c8e-4d47-997b-a4b38910a430" />
+
+<img width="1600" height="784" alt="image" src="https://github.com/user-attachments/assets/f3533af5-c02d-45aa-a517-c0e516ebd4b1" />
+
+
 
 ### AI Quiz Generator
 
-*(Insert screenshot here)*
+<img width="1600" height="775" alt="image" src="https://github.com/user-attachments/assets/4e0b27cc-1172-46a9-a9ef-de359cb9b8c7" />
+
 
 ### Conversation Practice
 
-*(Insert screenshot here)*
+<img width="1600" height="784" alt="image" src="https://github.com/user-attachments/assets/8683be7d-a354-442e-9212-352080ef0229" />
+
 
 ---
 
@@ -125,6 +146,13 @@ npm run dev
 
 ---
 
-## Author
+## Developer
+
+NOOR UL AIN HUSSAIN
 
 Developed as an AI-powered language learning website project.
+
+
+## GitHub Repository
+
+https://github.com/EmolaJolmes/Lingomate.ai
