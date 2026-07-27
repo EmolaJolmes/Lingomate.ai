@@ -83,6 +83,13 @@ function ChatPage() {
               </div>
             </div>
           )}
+          {error && (
+            <div className="flex justify-start">
+              <div className="rounded-2xl border border-destructive/40 bg-destructive/10 text-destructive px-4 py-3 text-sm">
+                {error}
+              </div>
+            </div>
+          )}
         </div>
 
         <form onSubmit={send} className="border-t border-border/60 p-4 flex gap-2">
