@@ -85,6 +85,12 @@ function LessonsPage() {
         </button>
       </form>
 
+      {error && (
+        <div className="mt-6 rounded-xl border border-destructive/40 bg-destructive/10 text-destructive px-4 py-3 text-sm">
+          {error}
+        </div>
+      )}
+
       {loading && (
         <div className="mt-8 rounded-2xl border border-border/60 bg-card p-6 shadow-sm animate-pulse">
           <div className="h-6 w-1/2 bg-muted rounded mb-4" />
