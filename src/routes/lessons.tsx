@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Loader2, BookOpen, Sparkles } from "lucide-react";
-import { generateLesson } from "../lib/ai";
+import { useServerFn } from "@tanstack/react-start";
+import { generateLessonFn } from "../lib/ai.functions";
 
 export const Route = createFileRoute("/lessons")({
   head: () => ({
@@ -24,15 +25,23 @@ function LessonsPage() {
   const [topic, setTopic] = useState("");
   const [lesson, setLesson] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const generate = useServerFn(generateLessonFn);
 
   async function handleGenerate(e: React.FormEvent) {
     e.preventDefault();
     if (!topic.trim()) return;
     setLoading(true);
     setLesson(null);
-    const result = await generateLesson({ language, level, topic });
-    setLesson(result);
-    setLoading(false);
+    setError(null);
+    try {
+      const result = await generate({ data: { language, level, topic } });
+      setLesson(result.lesson);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
