@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Brain, Loader2, Sparkles, Check, X } from "lucide-react";
-import { generateQuiz, type QuizQuestion } from "../lib/ai";
+import { useServerFn } from "@tanstack/react-start";
+import { generateQuizFn, type QuizQuestion } from "../lib/ai.functions";
 
 export const Route = createFileRoute("/quiz")({
   head: () => ({
@@ -26,6 +27,8 @@ function QuizPage() {
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const generate = useServerFn(generateQuizFn);
 
   async function handleGenerate(e: React.FormEvent) {
     e.preventDefault();
@@ -34,9 +37,15 @@ function QuizPage() {
     setQuestions(null);
     setAnswers({});
     setSubmitted(false);
-    const q = await generateQuiz({ language, topic, difficulty });
-    setQuestions(q);
-    setLoading(false);
+    setError(null);
+    try {
+      const q = await generate({ data: { language, topic, difficulty } });
+      setQuestions(q.questions);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   const score = questions
