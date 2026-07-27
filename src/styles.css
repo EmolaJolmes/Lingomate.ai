@@ -142,3 +142,11 @@
     color: var(--color-foreground);
   }
 }
+
+.md-content > :first-child { margin-top: 0; }
+.md-content > :last-child { margin-bottom: 0; }
+.md-compact > :first-child { margin-top: 0; }
+.md-compact > :last-child { margin-bottom: 0; }
+.md-compact h1, .md-compact h2, .md-compact h3 { margin-top: 0.75rem; margin-bottom: 0.375rem; font-size: 1rem; }
+.md-compact ul, .md-compact ol { margin-top: 0.25rem; margin-bottom: 0.25rem; }
+.md-compact p { margin: 0.25rem 0; }
